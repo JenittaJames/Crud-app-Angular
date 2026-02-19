@@ -1,0 +1,18 @@
+<!-- Show only if logged in -->
+@if (isLoggedIn) {
+  <header class="header">
+    <nav class="nav">
+      <!-- Left: Nav links -->
+      <ul class="nav-list">
+        <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+        <li><a routerLink="/profile" routerLinkActive="active">Profile</a></li>
+      </ul>
+      
+      <!-- Right: Logout button -->
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </nav>
+  </header>
+} @else {
+  <!-- Optional: Empty or login prompt if not logged in -->
+  <div></div>
+}

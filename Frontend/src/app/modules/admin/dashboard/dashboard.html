@@ -1,0 +1,60 @@
+<app-header></app-header>
+
+<div class="admin-dashboard-container">
+  <div class="admin-dashboard-wrapper">
+
+    <!-- Search Bar -->
+    <div class="search-section">
+  <div class="search-form">
+    <input type="text" [(ngModel)]="searchQuery" (input)="filterUsers()" placeholder="Search user by name, id or email">
+    <!-- <button type="button">Search</button> -->
+  </div>
+</div>
+
+
+    <!-- Create New User Button -->
+    <div class="create-user-section">
+      <a routerLink="/create" class="create-user-btn">
+        + Create New User
+      </a>
+    </div>
+
+    <!-- User List Table -->
+    <div class="user-table-container">
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of (searchQuery ? filteredUsers : usersSignal()); track user._id) {
+          <tr>
+            <td>{{ user._id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <div class="action-buttons">
+                <a [routerLink]="['/update', user._id]" class="edit-btn">Edit</a>
+                <button (click)="onDeleteUser(user._id)" class="delete-btn">Delete</button>
+              </div>
+            </td>
+          </tr>
+          }
+
+          @if (usersSignal().length === 0) {
+          <tr>
+            <td colspan="4">No users found.</td>
+          </tr>
+          }
+        </tbody>
+
+
+
+      </table>
+    </div>
+  </div>
+</div>

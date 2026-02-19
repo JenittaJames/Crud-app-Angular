@@ -1,0 +1,70 @@
+<app-header></app-header>
+
+<div class="profile-container">
+  <div class="profile-card">
+    <h2>User Profile</h2>
+
+    <ng-container *ngFor="let msg of alertMessages; let i = index">
+      <div class="alert alert-{{msg.type}} fade-in" role="alert">
+        {{ msg.text }}
+        <button type="button" class="close" (click)="clearAlert(i)">
+          <span>×</span>
+        </button>
+      </div>
+    </ng-container>
+
+    <div class="profile-content">
+      <div class="profile-left">
+        <div class="profile-image-section">
+          <img [src]="imageUrl" (error)="onImageError($event)" alt="Profile" class="profile-img">
+        </div>
+
+        <form (ngSubmit)="onUpload()" class="upload-form">
+          <div class="form-group">
+            <label for="profileImage">Upload New Image</label>
+            <input type="file" id="profileImage" #fileInput (change)="onFileSelect($event)" accept="image/*">
+          </div>
+          <button type="submit" [disabled]="!selectedFile || isLoading">
+            {{ isLoading ? 'Uploading…' : 'Upload Image' }}
+          </button>
+        </form>
+      </div>
+
+      <!-- Right Side: User Details Form -->
+      <div class="profile-right">
+        <form (ngSubmit)="onSave()" class="edit-form">
+          <!-- Username -->
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" [(ngModel)]="user.username" required
+              placeholder="Enter username">
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" [(ngModel)]="user.email" required placeholder="Enter email">
+          </div>
+
+          <!-- New Password -->
+          <div class="form-group">
+            <label for="password">New Password</label>
+            <input type="password" id="password" name="password" [(ngModel)]="user.password"
+              placeholder="Enter new password (optional)">
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="user.confirmPassword"
+              placeholder="Confirm new password">
+          </div>
+
+          <button type="submit" [disabled]="!isFormValid() || isSaving">
+            {{ isSaving ? 'Saving…' : 'Save Changes' }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
